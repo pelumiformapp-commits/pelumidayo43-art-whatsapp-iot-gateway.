@@ -1,24 +1,16 @@
-from flask import Flask, jsonify
-
+from flask import Flask, request, jsonify
 app = Flask(__name__)
 relay_status = 0
 
-@app.route('/')
+@app.route("/")
 def home():
-    return "IoT Gateway is Live"
-
-@app.route('/hardware/api')
-def get_status():
     return jsonify({"relay_status": relay_status})
 
-@app.route('/turn_on')
-def turn_on():
+@app.route("/api/relay_status", methods=["POST"])
+def update():
     global relay_status
     relay_status = 1
-    return jsonify({"message": "Relay ON", "relay_status": relay_status})
+    return jsonify({"message": "Updated"}), 200
 
-@app.route('/turn_off')
-def turn_off():
-    global relay_status
-    relay_status = 0
-    return jsonify({"message": "Relay OFF", "relay_status": relay_status})
+if __name__ == "__main__":
+    app.run()
