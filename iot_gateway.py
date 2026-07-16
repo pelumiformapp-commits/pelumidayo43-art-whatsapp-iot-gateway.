@@ -1,6 +1,11 @@
 from flask import Flask, jsonify
+
 app = Flask(__name__)
 relay_status = 0
+
+@app.route('/')
+def home():
+    return "IoT Gateway is Live"
 
 @app.route('/hardware/api')
 def get_status():
